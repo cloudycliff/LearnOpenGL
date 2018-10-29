@@ -1,9 +1,12 @@
 cmake_minimum_required(VERSION 3.7)
+
+set(CMAKE_OSX_SYSROOT /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk)
+
 project(GinOpenGL)
 
 set(CMAKE_CXX_STANDARD 11)
 
-set(MAIN_FILE src/multiLights.cpp)
+set(MAIN_FILE src/window.cpp)
 
 set(SOURCE_FILES ${MAIN_FILE} GLAD/src/glad.c lib/gin.cpp)
 set(HEADER_FILES include/shader.h include/vapp.h include/vgl.h include/camera.h include/texture.h)

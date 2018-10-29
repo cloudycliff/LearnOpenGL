@@ -52,12 +52,23 @@ void init(const char *title) {
 
 void display() {
 
+    bool init = false;
+
     do {
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
         glfwSwapBuffers(m_pWindow);
         glfwPollEvents();
+
+        if(!init)
+        {
+            int x,y;
+            glfwGetWindowPos(m_pWindow, &x, &y);
+            glfwSetWindowPos(m_pWindow, x+1, y);
+
+            init = true;
+        }
     } while (!glfwWindowShouldClose(m_pWindow));
 
 }
