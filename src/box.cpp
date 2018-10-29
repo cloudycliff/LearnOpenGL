@@ -35,9 +35,21 @@ public:
 GinApplication *GinApplication::s_app;
 
 void GinApplication::mainLoop() {
+
+    bool init = false;
+
     do {
         display();
         glfwPollEvents();
+
+        if(!init)
+        {
+            int x,y;
+            glfwGetWindowPos(m_pWindow, &x, &y);
+            glfwSetWindowPos(m_pWindow, x+1, y);
+
+            init = true;
+        }
     } while (!glfwWindowShouldClose(m_pWindow));
 }
 
@@ -141,8 +153,8 @@ void Box::display() {
     // render container
     ourShader->use();
 
-    glm::mat4 model;
-    glm::mat4 view;
+    glm::mat4 model = glm::mat4(1.0f);
+    glm::mat4 view = glm::mat4(1.0f);
     glm::mat4 projection;
     model = glm::rotate(model, (float)glfwGetTime(), glm::vec3(0.5f, 1.0f, 0.0f));
     view  = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));

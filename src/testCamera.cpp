@@ -35,6 +35,8 @@ public:
     unsigned int VBO, VAO;
     unsigned int texture1, texture2;
 
+    int speed = 20;
+
     Camera *camera;
 
     // world space positions of our cubes
@@ -56,9 +58,21 @@ public:
 GinApplication *GinApplication::s_app;
 
 void GinApplication::mainLoop() {
+
+    bool init = false;
+
     do {
         display();
         glfwPollEvents();
+
+        if(!init)
+        {
+            int x,y;
+            glfwGetWindowPos(m_pWindow, &x, &y);
+            glfwSetWindowPos(m_pWindow, x+1, y);
+
+            init = true;
+        }
     } while (!glfwWindowShouldClose(m_pWindow));
 }
 
@@ -175,7 +189,7 @@ void TestCamera::display() {
 
     glBindVertexArray(VAO);
     for (unsigned int i = 0; i < 10; i++) {
-        glm::mat4 model;
+        glm::mat4 model = glm::mat4(1.0f);
         model = glm::translate(model, cubePositions[i]);
         float angle = 20.0f * i;
         model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
@@ -195,16 +209,16 @@ void TestCamera::onKey(int key, int scancode, int action, int mods) {
                 return;
             }
             case GLFW_KEY_W:
-                camera->ProcessKeyboard(FORWARD, deltaTime);
+                camera->ProcessKeyboard(FORWARD, deltaTime * speed);
                 break;
             case GLFW_KEY_S:
-                camera->ProcessKeyboard(BACKWARD, deltaTime);
+                camera->ProcessKeyboard(BACKWARD, deltaTime * speed);
                 break;
             case GLFW_KEY_A:
-                camera->ProcessKeyboard(LEFT, deltaTime);
+                camera->ProcessKeyboard(LEFT, deltaTime * speed);
                 break;
             case GLFW_KEY_D:
-                camera->ProcessKeyboard(RIGHT, deltaTime);
+                camera->ProcessKeyboard(RIGHT, deltaTime * speed);
                 break;
         }
     }

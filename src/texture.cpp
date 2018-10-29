@@ -35,9 +35,21 @@ public:
 GinApplication *GinApplication::s_app;
 
 void GinApplication::mainLoop() {
+
+    bool init = false;
+
     do {
         display();
         glfwPollEvents();
+
+        if(!init)
+        {
+            int x,y;
+            glfwGetWindowPos(m_pWindow, &x, &y);
+            glfwSetWindowPos(m_pWindow, x+1, y);
+
+            init = true;
+        }
     } while (!glfwWindowShouldClose(m_pWindow));
 }
 
